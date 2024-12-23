@@ -1,0 +1,43 @@
+using System; 
+using System.IO; 
+using System.Collections.Generic; 
+
+class Program 
+{
+    static void Main(string[] args) 
+    {
+        try // Начинаем блок try для обработки потенциальных исключений
+        {
+            // Читаем весь текст из указанного файла и сохраняем его в inputText
+            string inputText = File.ReadAllText("C:\\Users\\revno\\Doc\\text.txt");
+            // Вызываем метод, который возвращает максимальное количество пар в inputText
+            int maximumPairs = GetMaxPairs(inputText);
+            // Выводим на консоль максимальное количество найденных пар
+            Console.WriteLine("Максимальное количество пар =  " + maximumPairs);
+        }
+        catch (Exception e) // Перехватываем любые возникшие исключения
+        {
+            // Выводим детали исключения на консоль
+            Console.WriteLine(e.ToString());
+        }
+    }
+
+    static int GetMaxPairs(string inputText) // Метод для поиска максимальных последовательных пар в inputText
+    {
+        List<string> pairs = new List<string>(); // Инициализируем новый список для хранения найденных пар
+        // Проходим по inputText до предпоследнего символа
+        for (int index = 0; index < inputText.Length - 1; index++)
+        {
+            // Получаем текущую пару символов из inputText
+            string currentPair = inputText.Substring(index, 2);
+            // Проверяем, является ли текущая пара "AB" или "CB"
+            if (currentPair == "AB" || currentPair == "CB")
+            {
+                pairs.Add(currentPair); // Добавляем валидную пару в список
+                index++; // Увеличиваем индекс, чтобы пропустить следующий символ (чтобы избежать перекрытия)
+            }
+        }
+        // Возвращаем максимальное количество найденных пар
+        return pairs.Count;
+    }
+}
